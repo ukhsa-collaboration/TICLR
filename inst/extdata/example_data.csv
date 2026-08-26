@@ -1,0 +1,29 @@
+"","patient","movenum","location","startdate","enddate","symonsdate","symenddate","specdate","deathdate","case_def","neg_specdate","extra_cat"
+"1","A",1,"Ward A","08/12/2024","15/12/2024",NA,NA,"12/12/2024",NA,"Confirmed","10/01/2025","Antibiogram A"
+"2","A",2,"Ward B","15/12/2024","28/12/2024",NA,NA,NA,NA,"Confirmed","13/01/2025",NA
+"3","A",3,"Ward C","28/12/2024","27/01/2025",NA,NA,NA,NA,"Confirmed","27/01/2025",NA
+"4","B",1,"Ward A","03/12/2024","03/01/2025",NA,NA,"10/12/2024",NA,"Confirmed",NA,"Antibiogram A"
+"5","B",2,"Ward D","03/01/2025","06/01/2025","05/12/2024","12/12/2024",NA,NA,"Confirmed",NA,"Antibiogram A"
+"6","B",3,"Ward B","06/01/2025","21/01/2025",NA,NA,NA,NA,"Confirmed",NA,"Antibiogram A"
+"7","C",1,"Ward B","01/01/2025","08/01/2025",NA,NA,"11/01/2025",NA,"Confirmed",NA,"Antibiogram A"
+"8","C",2,"Ward D","08/01/2025","13/01/2025",NA,NA,NA,NA,"Confirmed",NA,"Antibiogram A"
+"9","C",3,"Ward B","13/01/2025","01/02/2025",NA,NA,NA,NA,"Confirmed",NA,"Antibiogram A"
+"10","C",4,"Ward A","01/02/2025","03/02/2025",NA,NA,NA,"03/02/2025","Confirmed",NA,"Antibiogram B"
+"11","D",1,"Ward B","07/01/2025","17/01/2025",NA,NA,"14/01/2025",NA,"Probable",NA,NA
+"12","D",2,"Ward A","17/01/2025","27/01/2025",NA,NA,NA,NA,"Probable",NA,NA
+"13","D",3,"Ward B","27/01/2025","14/02/2025",NA,NA,NA,NA,"Probable",NA,"Antibiogram A"
+"14","E",1,"Ward B","24/01/2025","01/02/2025",NA,NA,"29/01/2025",NA,"Confirmed",NA,"Antibiogram B"
+"15","E",2,"Ward A","01/02/2025","22/02/2025",NA,NA,NA,NA,"Confirmed",NA,"Antibiogram A"
+"16","F",1,"Ward A","22/01/2025","24/01/2025","27/01/2025","01/02/2025","30/01/2025","25/02/2025","Confirmed",NA,NA
+"17","F",2,"Ward C","24/01/2025","25/01/2025",NA,NA,NA,NA,"Confirmed",NA,"Antibiogram B"
+"18","F",3,"Ward B","25/01/2025","31/01/2025",NA,NA,NA,NA,"Confirmed",NA,"Antibiogram B"
+"19","F",4,"Ward A","31/01/2025","25/02/2025","05/02/2025","06/02/2025",NA,NA,"Confirmed",NA,NA
+"20","G",1,"Ward A","22/01/2025","02/02/2025",NA,NA,"31/01/2025",NA,"Probable",NA,NA
+"21","G",2,"Ward B","02/02/2025","26/02/2025",NA,NA,NA,NA,"Probable",NA,NA
+"22","H",1,"Ward B","28/01/2025","04/02/2025",NA,NA,NA,NA,"Possible",NA,"Antibiogram A"
+"23","H",2,"Ward E","04/02/2025","26/02/2025",NA,NA,NA,NA,"Possible",NA,NA
+"24","I",1,"Ward A","26/01/2025","08/02/2025",NA,NA,"05/02/2025",NA,"Confirmed",NA,NA
+"25","I",2,"Ward B","08/02/2025","26/02/2025",NA,NA,NA,NA,"Confirmed",NA,NA
+"26","J",1,"Ward A","13/12/2024","17/12/2024",NA,NA,NA,NA,"Confirmed",NA,"Antibiogram A"
+"27","J",2,"Ward A","03/01/2025","03/01/2025",NA,NA,"03/04/2025",NA,"Confirmed",NA,"Antibiogram A"
+"28","J",3,"Ward F","30/03/2025","01/04/2025",NA,NA,NA,NA,NA,NA,"Antibiogram B"

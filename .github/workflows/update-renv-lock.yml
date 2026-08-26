@@ -1,0 +1,54 @@
+name: Update renv.lock from DESCRIPTION changes
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - DESCRIPTION
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot-renv:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+
+      - name: Set up pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Install renv
+        run: |
+          Rscript -e 'install.packages("renv", repos = "https://cloud.r-project.org")'
+
+      - name: Restore project library
+        run: |
+          Rscript -e 'if (file.exists("renv.lock")) renv::restore(prompt = FALSE)'
+
+      - name: Snapshot dependencies from DESCRIPTION
+        run: |
+          Rscript -e 'renv::snapshot(type = "explicit", prompt = FALSE)'
+
+      - name: Commit updated renv.lock
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add renv.lock
+
+          if git diff --cached --quiet; then
+            echo "No changes to renv.lock"
+            exit 0
+          fi
+
+          git commit -m "Update renv.lock after DESCRIPTION change"
+          git push
