@@ -1,0 +1,8 @@
+^renv$
+^renv\.lock$
+^TICLR\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^dev$
+^\.positai$
+^\.claude$
