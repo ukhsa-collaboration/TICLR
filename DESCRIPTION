@@ -1,6 +1,6 @@
 Package: TICLR
 Title: Timeline for Infection Clusters tool in R (TICLR)
-Version: 0.0.0.9000
+Version: 2.1.0.0
 Authors@R: 
     person("Gareth", "Hughes", , "irig@ukhsa.gov.uk", role = c("aut", "cre"))
 Description: TICLR is a Timeline for Infection Clusters tool for Shiny by RStudio. It is based upon a spreadsheet created by Gareth Hughes and Mark Reacher, later developed into an R shiny app by Gareth Hughes and Adrian Wensley.

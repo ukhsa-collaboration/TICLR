@@ -1,5 +1,7 @@
 # Timeline for Infection Clusters tool in R (TICLR)
 
+**Version:** 2.1.0.0
+
 ## Requirements
 
 * R >= 4.2.0
@@ -13,31 +15,12 @@ Install directly from GitHub using the `remotes` package:
 remotes::install_github("UKHSA-Internal/TICLR")
 ```
 
-If the repository is private you will need a GitHub Personal Access Token (PAT).
-You can create one at <https://github.com/settings/tokens> (select the `repo` scope).
-Store it in your `.Renviron` file:
-
-```
-GITHUB_PAT=your_token_here
-```
-
-Then install as above — `remotes` will pick up the token automatically.
-
 ## Launching the app
 
 Load the package and run the app with `run_app()`:
 
 ``` r
 library(TICLR)
-run_app()
-```
-
-### Running during development
-
-To run the app locally without installing the package, use `pkgload::load_all()` to load all functions from the `R/` directory, then launch the app:
-
-``` r
-pkgload::load_all()
 run_app()
 ```
 
