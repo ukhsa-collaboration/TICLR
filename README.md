@@ -12,7 +12,7 @@ Install directly from GitHub using the `remotes` package:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("UKHSA-Internal/TICLR")
+remotes::install_github("ukhsa-collaboration/TICLR")
 ```
 
 ## Launching the app
