@@ -2,7 +2,7 @@
 % Please edit documentation in R/module_timeline.R
 \name{mod_timeline}
 \alias{mod_timeline}
-\title{mod_timeline UI function}
+\title{mod_timeline UI Function}
 \usage{
 mod_timeline(id)
 }
@@ -10,5 +10,5 @@ mod_timeline(id)
 \item{id}{A shiny session id}
 }
 \description{
-A Shiny module
+A Shiny module.
 }

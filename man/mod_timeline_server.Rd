@@ -2,15 +2,15 @@
 % Please edit documentation in R/module_timeline.R
 \name{mod_timeline_server}
 \alias{mod_timeline_server}
-\title{mod_timeline server function}
+\title{mod_timeline_server Function}
 \usage{
 mod_timeline_server(id, inputdata)
 }
 \arguments{
 \item{id}{A shiny session id}
 
-\item{inputdata}{A reactive expression returning the cleaned input data}
+\item{inputdata}{A reactive expression containing the input data}
 }
 \description{
-mod_timeline server function
+mod_timeline_server Function
 }

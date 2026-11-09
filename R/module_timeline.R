@@ -208,204 +208,14 @@ mod_timeline <- function(id) {
 }
 
 
-#' Collect the current timeline UI settings
-#'
-#' Reads the current values of the timeline module's customisation inputs
-#' from \code{input} and returns them as a plain list, suitable for
-#' serialising to JSON and persisting via \code{dust_save_bookmark()}.
-#'
-#' @param input Shiny input object for the timeline module.
-#'
-#' @return A named list of the current timeline settings. Any input that has
-#'   not yet been set (e.g. UI not rendered) is omitted.
-#' @keywords internal
-timeline_collect_bookmark_settings <- function(input) {
-
-  setting_ids <- c(
-    "barhgt", "symhgt", "barspc", "poisiz", "xfs", "yfs", "legfs",
-    "plotht", "plotwd", "case_def", "cdfs", "leg_pos",
-    "colsch", "symcol", "specol", "negcol", "deacol",
-    "mingricol", "majgricol", "majbre", "minbre", "xlabrot", "suppress",
-    "hover_window_pre", "hover_window_post", "hover_highlight", "sorttype"
-  )
-
-  settings <- list()
-  for (setting_id in setting_ids) {
-    value <- input[[setting_id]]
-    if (!is.null(value)) {
-      settings[[setting_id]] <- value
-    }
-  }
-
-  settings
-}
-
-
-#' Apply a set of timeline UI settings
-#'
-#' Updates the timeline module's inputs to match the values in
-#' \code{settings}, as previously produced by
-#' \code{timeline_collect_bookmark_settings()} (typically after being
-#' retrieved from the database via \code{dust_find_bookmarks()}). Inputs
-#' that are absent from \code{settings} are left unchanged.
-#'
-#' @param session Shiny session object for the timeline module.
-#' @param settings A named list of settings, as returned by
-#'   \code{timeline_collect_bookmark_settings()}.
-#'
-#' @keywords internal
-timeline_apply_bookmark_settings <- function(session, settings) {
-
-  if (is.null(settings) || length(settings) == 0) {
-    return(invisible(NULL))
-  }
-
-  update_if_present <- function(name, fn) {
-    if (!is.null(settings[[name]])) {
-      fn(settings[[name]])
-    }
-  }
-
-  update_if_present("barhgt", \(v) updateSliderInput(session, "barhgt", value = v))
-  update_if_present("symhgt", \(v) updateSliderInput(session, "symhgt", value = v))
-  update_if_present("barspc", \(v) updateSliderInput(session, "barspc", value = v))
-  update_if_present("poisiz", \(v) updateSliderInput(session, "poisiz", value = v))
-  update_if_present("xfs", \(v) updateSliderInput(session, "xfs", value = v))
-  update_if_present("yfs", \(v) updateSliderInput(session, "yfs", value = v))
-  update_if_present("legfs", \(v) updateSliderInput(session, "legfs", value = v))
-  update_if_present("plotht", \(v) updateSliderInput(session, "plotht", value = v))
-  update_if_present("plotwd", \(v) updateSliderInput(session, "plotwd", value = v))
-  update_if_present("case_def", \(v) updateCheckboxInput(session, "case_def", value = v))
-  update_if_present("cdfs", \(v) updateSliderInput(session, "cdfs", value = v))
-  update_if_present("leg_pos", \(v) updateRadioButtons(session, "leg_pos", selected = v))
-
-  update_if_present("colsch", \(v) updateRadioButtons(session, "colsch", selected = v))
-  update_if_present("symcol", \(v) updateColourInput(session, "symcol", value = v))
-  update_if_present("specol", \(v) updateColourInput(session, "specol", value = v))
-  update_if_present("negcol", \(v) updateColourInput(session, "negcol", value = v))
-  update_if_present("deacol", \(v) updateColourInput(session, "deacol", value = v))
-  update_if_present("mingricol", \(v) updateColourInput(session, "mingricol", value = v))
-  update_if_present("majgricol", \(v) updateColourInput(session, "majgricol", value = v))
-
-  update_if_present("majbre", \(v) updateRadioButtons(session, "majbre", selected = v))
-  update_if_present("minbre", \(v) updateRadioButtons(session, "minbre", selected = v))
-  update_if_present("xlabrot", \(v) updateRadioButtons(session, "xlabrot", selected = v))
-  update_if_present("suppress", \(v) updateSliderTextInput(session, "suppress", selected = v))
-
-  update_if_present("hover_window_pre", \(v) updateNumericInput(session, "hover_window_pre", value = v))
-  update_if_present("hover_window_post", \(v) updateNumericInput(session, "hover_window_post", value = v))
-  update_if_present("hover_highlight", \(v) updateCheckboxInput(session, "hover_highlight", value = v))
-  update_if_present("sorttype", \(v) updateRadioButtons(session, "sorttype", selected = v))
-
-  invisible(NULL)
-}
-
-
-#' Save the current timeline UI state as a DUST bookmark
-#'
-#' Collects the timeline module's current settings via
-#' \code{timeline_collect_bookmark_settings()} and persists them using
-#' \code{dust_save_bookmark()}.
-#'
-#' @param postgres_con A DBI connection object to the DUST PostgreSQL database.
-#' @param app_name Character. Application name.
-#' @param uname Character. Current username.
-#' @param name Character. Preset name/identifier (\code{s_key}) to save under.
-#' @param input Shiny input object for the timeline module.
-#'
-#' @return \code{TRUE} (invisibly) if the save succeeded, \code{FALSE}
-#'   otherwise. See \code{dust_save_bookmark()} for details.
-#' @keywords internal
-timeline_save_ui_bookmark <- function(postgres_con, app_name, uname, name, input) {
-
-  if (!isS4(postgres_con)) {
-    return(invisible(FALSE))
-  }
-
-  settings <- timeline_collect_bookmark_settings(input)
-
-  dust_save_bookmark(
-    postgres_con = postgres_con,
-    app_name     = app_name,
-    uname        = uname,
-    name         = name,
-    options      = settings
-  )
-}
-
-
-#' Load a saved timeline UI state from a DUST bookmark
-#'
-#' Retrieves the user's saved bookmarks via \code{dust_find_bookmarks()},
-#' locates the one matching \code{name}, and applies its settings to the
-#' timeline module's inputs via \code{timeline_apply_bookmark_settings()}.
-#'
-#' @param postgres_con A DBI connection object to the DUST PostgreSQL database.
-#' @param app_name Character. Application name.
-#' @param uname Character. Current username.
-#' @param name Character. Preset name/identifier (\code{s_key}) to load.
-#' @param session Shiny session object for the timeline module.
-#'
-#' @return \code{TRUE} (invisibly) if a matching bookmark was found and
-#'   applied, \code{FALSE} (invisibly) otherwise.
-#' @keywords internal
-timeline_load_ui_bookmark <- function(postgres_con, app_name, uname, name, session) {
-
-  if (!isS4(postgres_con)) {
-    return(invisible(FALSE))
-  }
-
-  bookmarks <- dust_find_bookmarks(postgres_con, app_name, uname)
-
-  if (nrow(bookmarks) == 0 || !("s_key" %in% names(bookmarks))) {
-    message(paste0("No bookmarks found for user '", uname, "' when loading '", name, "'."))
-    return(invisible(FALSE))
-  }
-
-  match_row <- bookmarks[bookmarks$s_key == name, ]
-
-  if (nrow(match_row) == 0) {
-    message(paste0("Bookmark '", name, "' not found for user '", uname, "'."))
-    return(invisible(FALSE))
-  }
-
-  settings <- match_row$set[[1]]
-  timeline_apply_bookmark_settings(session, settings)
-
-  invisible(TRUE)
-}
-
-
 #' mod_timeline_server Function
 #' 
 #' @param id A shiny session id
 #' @param inputdata A reactive expression containing the input data
-#' 
-#' @param postgres_con A DBI connection object to the DUST PostgreSQL database.
-#' @param existing_bookmarks A tibble of existing bookmarks, as returned by
-#'   \code{dust_find_bookmarks()}.
-#' @param app_name Character. Application name.
-#' @param uname Character. Current username.
 #'
 #' @export
-mod_timeline_server <- function(id, inputdata, postgres_con, existing_bookmarks, app_name, uname) {
+mod_timeline_server <- function(id, inputdata) {
     moduleServer(id, function(input, output, session) {
-
-    # Apply any existing saved bookmark on startup, once the UI has been
-    # fully rendered (so that updateXInput calls have controls to target).
-    if (nrow(existing_bookmarks) > 0) {
-      session$onFlushed(function() {
-        timeline_apply_bookmark_settings(session, existing_bookmarks$set[[1]])
-      }, once = TRUE)
-    }
-
-    # `colsch` is rendered via colsch_ui (a renderUI/uiOutput), so it doesn't
-    # exist yet when the updateRadioButtons() above fires and is silently
-    # ignored. Stash the saved value here so colsch_ui can apply it itself
-    # the first time it renders.
-    saved_colsch <- reactiveVal(
-      if (nrow(existing_bookmarks) > 0) existing_bookmarks$set[[1]]$colsch else NULL
-    )
 
     reset_trigger <- reactiveVal(0)
     data_mindate <- reactiveVal(NULL)
@@ -1510,15 +1320,6 @@ mod_timeline_server <- function(id, inputdata, postgres_con, existing_bookmarks,
       return(fig)
     })
 
-    # Debounce bookmark saving so it only fires ~2s after the user stops
-    # adjusting inputs, rather than on every single change.
-    timeline_plot_debounced <- debounce(timeline.plot, 2000)
-
-    observeEvent(timeline_plot_debounced(), {
-      # Persist the current UI state so it can be restored on next visit.
-      timeline_save_ui_bookmark(postgres_con, app_name, uname, "default", input)
-    })
-    
     output$timeline <- plotly::renderPlotly({
       timeline.plot()
     })
@@ -1651,21 +1452,12 @@ mod_timeline_server <- function(id, inputdata, postgres_con, existing_bookmarks,
     })
 
     output$colsch_ui <- renderUI({
-      # col_choices() req()s on inputdata_prep() and can throw before data is
-      # loaded; resolve it first so a failed attempt doesn't consume/lose the
-      # pending saved value below
       choices <- col_choices()
-      pending <- isolate(saved_colsch())
-      if (!is.null(pending)) {
-        saved_colsch(NULL)
-        selected <- pending
-      } else {
-        selected <- input$colsch %||% "Tableau 20"
-      }
+      selected <- input$colsch %||% "Tableau 20"
       radioButtons(ns("colsch"), "Colour scheme:", choices = choices, selected = selected)
     })
-    # lives on the "Colour" tab; render it even while hidden so the saved
-    # bookmark value is applied on load instead of only when the tab is opened
+    # lives on the "Colour" tab; render it even while hidden so it exists
+    # as soon as other inputs need to reference its value
     outputOptions(output, "colsch_ui", suspendWhenHidden = FALSE)
 
     observeEvent(input$hotkey_pressed, {
