@@ -13,30 +13,40 @@ export(mod_timeline)
 export(mod_timeline_server)
 export(run_app)
 export(sort_data)
+export(sort_data_2)
 export(ukhsa_theme)
 export(updateInputCols)
-export(sort_data_2)
 import(RColorBrewer)
 import(bslib)
 import(dplyr)
 import(ggplot2)
 import(glue)
+import(htmlwidgets)
+import(keys)
 import(lubridate)
+import(plotly)
 import(purrr)
 import(shiny)
-import(tidyr)
-import(keys)
 import(shinycssloaders)
-import(RPostgres)
-importFrom(colourpicker,colourInput)
-importFrom(colourpicker,updateColourInput)
-importFrom(scales,date_breaks)
-importFrom(scales,date_format)
-importFrom(shinyjs,useShinyjs)
+import(tidyr)
+importFrom(colourpicker,
+  colourInput,
+  updateColourInput
+)
+importFrom(grDevices,colorRampPalette)
+importFrom(scales,
+  date_breaks,
+  date_format,
+  hue_pal
+)
 importFrom(shinyWidgets,updateSliderTextInput)
+importFrom(shinyjs,useShinyjs)
 importFrom(stats,setNames)
-importFrom(stringr,str_detect)
-importFrom(stringr,str_replace)
-importFrom(utils,read.csv)
-importFrom(utils,write.csv)
-importFrom(scales, hue_pal)
+importFrom(stringr,
+  str_detect,
+  str_replace
+)
+importFrom(utils,
+  read.csv,
+  write.csv
+)

@@ -1,9 +1,7 @@
 default:
   golem_name: TICLR
   app_prod: false
-  silencer: true
 
 production:
   golem_name: TICLR
   app_prod: true
-  silencer: false

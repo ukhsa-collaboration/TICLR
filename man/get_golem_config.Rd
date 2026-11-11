@@ -6,7 +6,7 @@
 \usage{
 get_golem_config(
   value,
-  config = Sys.getenv("R_CONFIG_ACTIVE", unset = "default"),
+  config = Sys.getenv("GOLEM_CONFIG_ACTIVE", unset = "default"),
   use_parent = TRUE
 )
 }
@@ -14,7 +14,7 @@ get_golem_config(
 \item{value}{The key to retrieve from the config file.}
 
 \item{config}{The configuration environment to use. Defaults to the value of
-the \code{R_CONFIG_ACTIVE} environment variable, or \code{"default"} if unset.}
+the \code{GOLEM_CONFIG_ACTIVE} environment variable, or \code{"default"} if unset.}
 
 \item{use_parent}{Whether to inherit values from the parent configuration.}
 }

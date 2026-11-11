@@ -495,7 +495,7 @@ mod_input_data_server <- function(id,
                       mutate(across(contains("date"),
                \(x) {
                  if (inherits(x, c("POSIXct", "POSIXlt", "Date"))) {
-                   x  # already parsed — preserve type
+                   x  # already parsed - preserve type
                  } else {
                    parse_date_time(
                      x,
@@ -700,7 +700,7 @@ mod_input_data_server <- function(id,
   if (n_red > 0) {
     div(class = "ticlr-ribbon ticlr-ribbon-red visible",
         icon("circle-xmark"),
-        sprintf("  %d red warning(s) — rows with errors will be excluded from the timeline.", n_red))
+        sprintf("  %d red warning(s) - rows with errors will be excluded from the timeline.", n_red))
   }
 })
 

@@ -2,8 +2,3 @@
 # Add variables in the format: VAR_NAME=value
 
 GOLEM_CONFIG_ACTIVE=default
-POSTGRES_DB="null"
-POSTGRES_USER="null"
-POSTGRES_PASSWORD="null"
-POSTGRES_HOST="null"
-POSTGRES_PORT="null"

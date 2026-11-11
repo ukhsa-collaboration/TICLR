@@ -27,7 +27,6 @@ RUN set -eux; \
             libfontconfig1-dev \
             libssl-dev \
             libxml2-dev \
-            unixodbc-dev \
             libharfbuzz-dev \
             libfribidi-dev \
             libfreetype6-dev \
@@ -45,49 +44,8 @@ RUN set -eux; \
             gsfonts \
             cmake \
             libbz2-dev \
-            xclip \
-            odbc-postgresql unixodbc; \
+            xclip; \
     find /var/lib/apt/lists -type f -delete
-
-# Add PostgreSQL ODBC driver entry in /etc/odbcinst.ini
-RUN echo "[PostgreSQL Unicode(x64)]" >> /etc/odbcinst.ini && \
-
-    echo "Description=PostgreSQL ODBC Driver" >> /etc/odbcinst.ini && \
-
-    echo "Driver=$(find /usr/lib -name 'psqlodbcw.so')" >> /etc/odbcinst.ini
-
-# Confirm the path for the ODBC driver
-RUN ls /usr/lib/$(uname -m)-linux-gnu/odbc/psqlodbcw.so || echo "ODBC driver not found"
-
-# Set ODBC environment variables- PostgreSQL
-ENV ODBCINST=/etc/odbcinst.ini
-
-# Install MS ODBC Driver for SQL Server. We need odbcinst because msodbcsql17
-# doesn't (transitively) depend on it.
-
-RUN set -eux; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends ca-certificates curl gnupg; \
-    mkdir -p /etc/apt/keyrings; \
-    curl -fsSL https://packages.microsoft.com/keys/microsoft.asc \
-      | gpg --dearmor > /etc/apt/keyrings/microsoft.gpg; \
-    chmod 644 /etc/apt/keyrings/microsoft.gpg; \
-    rm -rf /var/lib/apt/lists/*
-
-COPY microsoft.sources /etc/apt/sources.list.d
-
-RUN set -eux; \
-    apt-get -q update; \
-    DEBIAN_FRONTEND=noninteractive \
-    ACCEPT_EULA=Y \
-        apt-get install -q -y --no-install-recommends \
-            odbcinst msodbcsql17 \
-    ; \
-    find /var/lib/apt/lists -type f -delete;
-
-# Set ODBC environment variables
-ENV ODBCINI=/etc/odbc.ini
-
 
 # Create writable cache directories
 RUN mkdir -p /.cache/fontconfig /.cache/R/sass /tmp/R/sass && \

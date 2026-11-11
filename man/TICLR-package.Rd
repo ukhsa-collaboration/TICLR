@@ -11,4 +11,9 @@ TICLR is a Timeline for Infection Clusters tool for Shiny by RStudio. It is base
 \author{
 \strong{Maintainer}: Gareth Hughes \email{irig@ukhsa.gov.uk}
 
+Authors:
+\itemize{
+  \item Gareth Hughes \email{irig@ukhsa.gov.uk}
+}
+
 }
